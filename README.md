@@ -4,19 +4,33 @@ AI-PoC-Agents-v2は、ユーザーが与えたテーマについて自動的にP
 
 ## 概要
 
-3つの専門エージェントが協調して、曖昧なアイデアから実用的なPoCまでを自動的に実現します：
+9つの専門エージェントが協調して、曖昧なアイデアから実用的なPoCまでを自動的に実現します：
 
-1. **課題明確化・アイデア生成エージェント**: 問題を分析し、複数の解決策を提案
-2. **PoC設計・実施エージェント**: 技術設計から実装・実行まで
-3. **結果評価・リフレクションエージェント**: 結果分析と改善提案
+### Phase 1: Problem Analysis
+1. **Problem Identification Agent**: 問題特定・分析・タスク分類
+2. **Search Problem Agent**: 問題領域調査（Qiita + ローカルコード検索）
+
+### Phase 2: Idea Development
+3. **Idea Generation Agent**: アイデア生成
+4. **Idea Reflection Agent**: アイデア評価・実装可能性判断
+
+### Phase 3: Design & Implementation
+5. **PoC Design Agent**: 技術分析・要件定義・アーキテクチャ設計
+6. **Implementation Agent**: コード実装（サンプルコード活用）
+7. **Execute Agent**: コード実行・評価
+
+### Phase 4: Analysis & Reporting
+8. **Reflection Agent**: 全体分析・改善提案
+9. **Reporting Agent**: 文書化・レポート生成
 
 ## 特徴
 
-- ✅ **自動化されたPoC開発**: アイデアから実装まで全自動
-- ✅ **多段階評価**: 技術・ビジネス・イノベーションの多角的評価
-- ✅ **包括的レポート**: エグゼクティブサマリーから技術詳細まで
-- ✅ **再現可能な実行環境**: Dockerベースの環境構築
-- ✅ **リアルタイム進捗**: ストリーミング実行による進捗監視
+- ✅ **専門エージェント分離**: 9つの特化エージェントによる高品質な成果
+- ✅ **多源探索**: Qiita + ローカルコード検索による包括的技術調査
+- ✅ **実装重視**: サンプルコードを活用した実際の動作するコード生成
+- ✅ **段階的ワークフロー**: 各フェーズが前段階の結果を活用する明確なパイプライン
+- ✅ **包括的レポート**: 8つの文書成果物（技術仕様書、ユーザーガイド、プレゼン資料等）
+- ✅ **品質保証**: 各段階での評価・反映機能
 
 ## クイックスタート
 
@@ -38,54 +52,88 @@ export OPENAI_API_KEY="your-api-key-here"
 
 ```bash
 # OCRの例
-uv run python main.py --theme "画像内の日本語テキストを自動で読み取るOCRを作りたい" --description "ひらがな、カタカナ、漢字、縦書き・横書きの両方に対応する日本語文字認識システム" --domain "AI/機械学習"
+uv run python main.py --theme "OCR文字認識システム" --description "画像から文字を抽出"
 
-# リアルタイム実行
-uv run python main.py --theme "チャットボットを作りたい" --stream
+# ローカルコード参照付き実行
+uv run python main.py --theme "OCR" --local-code-paths ./examples ./reference_code
 
-# 設定ファイル使用
-uv run python main.py --theme "Webアプリを作りたい" --config configs/default_config.yaml
+# 特定フェーズから開始
+uv run python main.py --theme "OCR" --start-from-phase "idea_generation"
+
+# 単一フェーズのみ実行
+uv run python main.py --theme "OCR" --single-phase "implementation"
 ```
 
 ### 主なオプション
 
 - `--theme`: PoC のテーマ（必須）
 - `--description`: 詳細な説明
-- `--domain`: ドメイン/業界コンテキスト
-- `--workspace`: 作業ディレクトリ（デフォルト: ./workspace）
-- `--stream`: リアルタイム実行
-- `--max-iterations`: フェーズごとの最大反復回数（デフォルト: 3）
-- `--score-threshold`: 次フェーズへ進む最小スコア（デフォルト: 0.7）
+- `--local-code-paths`: ローカル参考コードパス（複数指定可）
+- `--start-from-phase`: 開始フェーズ指定
+- `--single-phase`: 単一フェーズ実行
+- `--workspace`: 作業ディレクトリ（デフォルト: ./examples）
+- `--model`: 使用LLMモデル名
+- `--timeline-days`: 想定開発期間
 
 ## プロジェクト構造
 
 ```
 AI-PoC-Agents-v2/
+├── main.py                           # メインエントリーポイント
 ├── src/ai_poc_agents_v2/
-│   ├── core/           # コア機能（状態管理、設定）
-│   ├── agents/         # 3つの専門エージェント
-│   ├── workflow/       # ワークフロー制御
-│   └── tools/          # ユーティリティツール
-├── configs/            # 設定ファイル
-├── examples/           # 使用例
-├── tests/              # テストコード
-└── workspace/          # 生成されるアーティファクト
+│   ├── agents_v2/                    # 新専門エージェント群（9つ）
+│   │   ├── problem_identification_agent.py
+│   │   ├── search_problem_agent.py
+│   │   ├── idea_generation_agent.py
+│   │   ├── idea_reflection_agent.py
+│   │   ├── poc_design_agent.py
+│   │   ├── implementation_agent.py
+│   │   ├── execute_agent.py
+│   │   ├── reflection_agent.py
+│   │   ├── reporting_agent.py
+│   │   └── workflow_orchestrator.py
+│   ├── agents/                       # 旧エージェント（互換維持）
+│   ├── core/                         # コア機能（状態管理、設定）
+│   ├── tools/                        # ユーティリティツール
+│   └── workflow/                     # ワークフロー制御
+└── examples/                         # 実行成果物
 ```
 
 ## ワークフロー
 
 ```mermaid
 graph TD
-    A[ユーザーテーマ入力] --> B[課題明確化]
-    B --> C[アイデア生成]
-    C --> D[アイデア選定]
-    D --> E[PoC設計]
-    E --> F[PoC実装]
-    F --> G[PoC実行]
-    G --> H[結果評価]
-    H --> I[リフレクション]
-    I --> J[レポート生成]
+    A[ユーザーテーマ入力] --> B[Problem Identification]
+    B --> C[Search Problem]
+    C --> D[Idea Generation]
+    D --> E[Idea Reflection]
+    E --> F[PoC Design]
+    F --> G[Implementation]
+    G --> H[Execute]
+    H --> I[Reflection]
+    I --> J[Reporting]
     J --> K[完了]
+    
+    subgraph "Phase 1: Problem Analysis"
+        B
+        C
+    end
+    
+    subgraph "Phase 2: Idea Development"
+        D
+        E
+    end
+    
+    subgraph "Phase 3: Design & Implementation"
+        F
+        G
+        H
+    end
+    
+    subgraph "Phase 4: Analysis & Reporting"
+        I
+        J
+    end
 ```
 
 ## 出力例
@@ -93,29 +141,38 @@ graph TD
 実行後、以下のアーティファクトが生成されます：
 
 ```
-workspace/
+examples/{project_name}/
 ├── problem_identification/
-│   └── problem_analysis.json
+│   └── problem_identification_iteration_0.json
+├── problem_search/
+│   └── search_results_iteration_0.json
 ├── idea_generation/
-│   └── generated_ideas.json  
+│   └── generated_ideas_iteration_0.json
+├── idea_reflection/
+│   └── idea_evaluation_iteration_0.json
 ├── poc_design/
-│   ├── design_document.md
-│   └── architecture.json
-├── poc_implementation/
-│   ├── code/
+│   └── technical_specification_iteration_0.json
+├── implementation/
+│   ├── poc_implementation/          # 実行可能コードベース
 │   │   ├── main.py
 │   │   ├── requirements.txt
-│   │   └── README.md
-│   └── execution_plan.md
-├── result_evaluation/
-│   └── evaluation_report.md
+│   │   ├── README.md
+│   │   └── tests/
+│   └── implementation_results_iteration_0.json
+├── execution/
+│   └── execution_results_iteration_0.json
 ├── reflection/
-│   └── reflection_analysis.md
+│   └── reflection_analysis_iteration_0.json
 ├── reporting/
-│   ├── final_report.md
+│   ├── comprehensive_report.md
 │   ├── executive_summary.md
-│   └── poc_summary.json
-└── final_state.json
+│   ├── technical_documentation.md
+│   ├── user_guide.md
+│   ├── presentation_slides.md
+│   ├── demo_script.md
+│   ├── qa_preparation.md
+│   └── project_portfolio_entry.md
+└── workflow_summary.json           # 実行結果サマリー
 ```
 
 ## 設定
@@ -142,8 +199,8 @@ workflow:
 ### テスト実行
 
 ```bash
-# 構造テスト
-uv run python test_ocr_example.py
+# エージェント個別テスト
+uv run python src/ai_poc_agents_v2/agents_v2/problem_identification_agent.py
 
 # ユニットテスト
 uv run pytest tests/
@@ -167,44 +224,32 @@ uv run mypy src/
 
 ## API リファレンス
 
-### PoCProject
+### WorkflowOrchestrator
 
 ```python
-from ai_poc_agents_v2 import PoCProject
+from ai_poc_agents_v2.agents_v2.workflow_orchestrator import WorkflowOrchestrator
+from ai_poc_agents_v2.core.state import State
 
-project = PoCProject(
-    theme="テーマ",
-    description="説明", 
-    domain="ドメイン",
-    timeline_days=7
-)
-```
+# 完全ワークフロー実行
+orchestrator = WorkflowOrchestrator()
+state = State(theme="テーマ", description="説明")
+result = orchestrator.execute_workflow(state)
 
-### PoCWorkflow
+# 部分実行
+result = orchestrator.execute_workflow(state, start_from_phase="idea_generation")
 
-```python
-from ai_poc_agents_v2 import PoCWorkflow, Config
-
-config = Config()
-workflow = PoCWorkflow(config)
-result = workflow.run(initial_state)
+# 単一フェーズ実行
+result = orchestrator.execute_single_phase(state, "implementation")
 ```
 
 ## 制限事項
 
 - OpenAI API キーが必要
+- Qiita検索にはQIITA_ACCESS_TOKENが推奨（未設定時は制限あり）
 - 実行時間はテーマの複雑さに依存（通常5-30分）
 - 生成されるコードは PoC レベル（本番運用には追加作業が必要）
+- ローカルコード検索はファイルシステムアクセス権限が必要
 
 ## ライセンス
 
 MIT License
-
-## 貢献
-
-Issues や Pull Requests をお待ちしています。
-
-## サポート
-
-- [GitHub Issues](https://github.com/ai-poc-agents/ai-poc-agents-v2/issues)
-- [ドキュメント](https://docs.ai-poc-agents.com)

@@ -1,0 +1,126 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ai-poc-agents-v2"
+dynamic = ["version"]
+description = "Automated Proof of Concept Framework using Multi-Agent System"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+keywords = ["ai", "poc", "agents", "automation", "multiagent"]
+authors = [
+  { name = "AI-PoC-Agents Team" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "pydantic>=2.0.0",
+  "pyyaml>=6.0",
+  "typing-extensions>=4.0.0",
+  "python-dotenv>=1.0.0",
+  "opencv-python",
+  "easyocr",
+  "numpy",
+  "torch>=2.8.0",
+  "torchvision>=0.23.0",
+  "langchain-openai>=0.3.28",
+  "sentence-transformers>=5.1.0",
+  "pandas>=2.3.1",
+  "scikit-learn>=1.6.1",
+  "matplotlib>=3.9.4",
+  "seaborn>=0.13.2",
+  "joblib>=1.5.1",
+  "pillow>=11.3.0",
+  "langgraph>=0.6.3",
+]
+
+[project.optional-dependencies]
+langchain = [
+  "langchain-openai>=0.1.0",
+  "langchain-core>=0.1.0",
+  "langgraph>=0.1.0",
+]
+analysis = [
+  "pandas>=2.0.0",
+  "numpy>=1.24.0",
+  "matplotlib>=3.7.0",
+  "seaborn>=0.12.0",
+  "plotly>=5.15.0",
+]
+dev = [
+  "pytest>=7.0.0",
+  "black>=23.0.0",
+  "flake8>=6.0.0",
+  "mypy>=1.0.0",
+]
+
+[project.urls]
+Documentation = "https://github.com/ai-poc-agents/ai-poc-agents-v2#readme"
+Issues = "https://github.com/ai-poc-agents/ai-poc-agents-v2/issues"
+Source = "https://github.com/ai-poc-agents/ai-poc-agents-v2"
+
+[project.scripts]
+ai-poc-agents-v2 = "ai_poc_agents_v2.main:main"
+
+[tool.hatch.version]
+path = "src/ai_poc_agents_v2/__init__.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "coverage[toml]>=6.5",
+  "pytest",
+]
+
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
+cov-report = [
+  "- coverage combine",
+  "coverage report",
+]
+cov = [
+  "test-cov",
+  "cov-report",
+]
+
+[tool.black]
+target-version = ["py39"]
+line-length = 120
+skip-string-normalization = true
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.coverage.run]
+source_pkgs = ["ai_poc_agents_v2", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/ai_poc_agents_v2/__about__.py",
+]
+
+[tool.coverage.paths]
+ai_poc_agents_v2 = ["src/ai_poc_agents_v2", "*/ai-poc-agents-v2/src/ai_poc_agents_v2"]
+tests = ["tests", "*/ai-poc-agents-v2/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]

@@ -1,0 +1,27 @@
+{
+  "project": {
+    "theme": "OCR画像文字認識システム",
+    "domain": "The OCR technology is widely used in sectors such as finance, healthcare, education, and legal for digitizing documents, automating workflows, and improving accessibility for individuals with disabilities.",
+    "timeline_days": 7,
+    "success_criteria_count": 4
+  },
+  "evaluation": {
+    "overall_score": 0.84,
+    "technical_score": 0.9,
+    "business_score": 0.85,
+    "innovation_score": 0.8,
+    "strengths_count": 4,
+    "improvement_areas": 3
+  },
+  "reflection": {
+    "success_probability": 0.85,
+    "immediate_steps": 2,
+    "key_learnings": 3
+  },
+  "recommendation": {
+    "proceed": true,
+    "confidence": "HIGH",
+    "priority": "HIGH"
+  },
+  "timestamp": "2025-08-08T01:00:18.140276"
+}

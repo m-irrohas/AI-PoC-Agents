@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  ocr_service:
+    build: .
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output

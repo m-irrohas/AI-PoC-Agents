@@ -1,0 +1,41 @@
+# Default configuration for AI-PoC-Agents-v2
+
+model:
+  api_key: ""  # Set via environment variable OPENAI_API_KEY
+  base_url: "https://api.openai.com/v1"
+  temperature: 0.1
+  max_tokens: 4000
+  
+  # Model assignments for different agent types
+  problem_identifier: "gpt-4o-mini"
+  idea_generator: "gpt-4o-mini"
+  idea_selector: "gpt-4o-mini"
+  poc_designer: "gpt-4o-mini"
+  poc_implementer: "gpt-4o-mini"
+  poc_executor: "gpt-4o-mini" 
+  result_evaluator: "gpt-4o-mini"
+  reflector: "gpt-4o-mini"
+  reporter: "gpt-4o-mini"
+
+workflow:
+  max_iterations: 3
+  score_threshold: 0.7
+  timeout_minutes: 30
+  enable_parallel_execution: false
+  save_intermediate_results: true
+  workspace_cleanup: false
+
+execution:
+  docker_enabled: true
+  container_timeout_minutes: 10
+  memory_limit_mb: 1024
+  cpu_limit: 1.0
+  network_enabled: false
+  allowed_languages:
+    - "python"
+    - "javascript"
+    - "bash"
+  package_managers:
+    - "pip"
+    - "npm" 
+    - "apt"

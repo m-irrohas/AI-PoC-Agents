@@ -1,0 +1,285 @@
+{
+  "qiita_results": {},
+  "local_code_results": {
+    "code_files": [
+      {
+        "file_path": "local_codes/binary_classifier.py",
+        "file_name": "binary_classifier.py",
+        "size": 4199,
+        "matching_keywords": [
+          "classification"
+        ],
+        "content_preview": "#!/usr/bin/env python3\n\"\"\"\nBinary Classification Model Example\nFor datasets with 2 classes (e.g., normal vs anomaly)\n\"\"\"\n\nimport pandas as pd\nimport numpy as np\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import LabelEncoder, StandardScaler\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import classification_report, accuracy_score, roc_auc_score, roc_curve\nimport matplotlib.pyplot as"
+      },
+      {
+        "file_path": "local_codes/generic_classifier.py",
+        "file_name": "generic_classifier.py",
+        "size": 4726,
+        "matching_keywords": [
+          "classification"
+        ],
+        "content_preview": "#!/usr/bin/env python3\n\"\"\"\nGeneric Classification Model Example\nWorks with any CSV dataset for multi-class classification\n\"\"\"\n\nimport pandas as pd\nimport numpy as np\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import LabelEncoder, StandardScaler\nfrom sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.svm import SVC\nfrom sklearn.metrics import classification_report, accurac"
+      },
+      {
+        "file_path": "local_codes/model_comparison.py",
+        "file_name": "model_comparison.py",
+        "size": 4098,
+        "matching_keywords": [
+          "classification"
+        ],
+        "content_preview": "#!/usr/bin/env python3\n\"\"\"\nModel Comparison Example\nCompare multiple classification algorithms on the same dataset\n\"\"\"\n\nimport pandas as pd\nimport numpy as np\nfrom sklearn.model_selection import train_test_split, cross_val_score\nfrom sklearn.preprocessing import LabelEncoder, StandardScaler\nfrom sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.svm import SVC\nfrom sklearn.naive_bayes import GaussianNB\nfrom "
+      }
+    ],
+    "code_snippets": [
+      {
+        "type": "function",
+        "name": "load_and_preprocess_data",
+        "code": "def load_and_preprocess_data(data_path, target_column=None):\n    \"\"\"Load and preprocess the dataset for binary classification\"\"\"\n    df = pd.read_csv(data_path)\n    \n    print(f\"Dataset shape: {df.shape}\")\n    \n    # Auto-detect target column if not specified\n    if target_column is None:\n        target_column = df.columns[-1]\n        print(f\"Auto-detected target column: {target_column}\")\n    \n    # Separate features and target\n    X = df.drop(target_column, axis=1)\n    y = df[target_column]\n    \n    print(f\"Original classes: {y.unique()}\")\n    print(f\"Class distribution:\\n{y.value_counts()}\")\n    \n    # Handle categorical features\n    categorical_columns = X.select_dtypes(include=['object']).columns\n    for col in categorical_columns:\n        le = LabelEncoder()\n        X[col] = le.fit_transform(X[col])\n    \n    # Encode target labels for binary classification\n    if y.nunique() == 2:\n        # Already binary\n        le = LabelEncoder()\n        y_encoded = le.fit_transform(y)\n    else",
+        "file_path": "local_codes/binary_classifier.py",
+        "language": "python"
+      },
+      {
+        "type": "function",
+        "name": "train_binary_classifier",
+        "code": "def train_binary_classifier(X_train, y_train, model_type='rf'):\n    \"\"\"Train a binary classification model\"\"\"\n    if model_type == 'rf':\n        model = RandomForestClassifier(n_estimators=100, random_state=42)\n    elif model_type == 'lr':\n        model = LogisticRegression(random_state=42, max_iter=1000)\n    else:\n        raise ValueError(\"Unsupported model type\")\n    \n    model.fit(X_train, y_train)\n    return model\n",
+        "file_path": "local_codes/binary_classifier.py",
+        "language": "python"
+      },
+      {
+        "type": "function",
+        "name": "evaluate_binary_model",
+        "code": "def evaluate_binary_model(model, X_test, y_test):\n    \"\"\"Evaluate the binary classification model\"\"\"\n    # Make predictions\n    y_pred = model.predict(X_test)\n    y_pred_proba = model.predict_proba(X_test)[:, 1]\n    \n    # Calculate metrics\n    accuracy = accuracy_score(y_test, y_pred)\n    auc_score = roc_auc_score(y_test, y_pred_proba)\n    \n    print(f\"Accuracy: {accuracy:.4f}\")\n    print(f\"AUC Score: {auc_score:.4f}\")\n    print(\"\\nClassification Report:\")\n    print(classification_report(y_test, y_pred, target_names=['Attack', 'Normal']))\n    \n    return accuracy, auc_score, y_pred, y_pred_proba\n",
+        "file_path": "local_codes/binary_classifier.py",
+        "language": "python"
+      },
+      {
+        "type": "function",
+        "name": "main",
+        "code": "def main():\n    parser = argparse.ArgumentParser(description='Binary Classification Model')\n    parser.add_argument('data_path', help='Path to the CSV dataset')\n    parser.add_argument('--target-column', help='Name of the target column')\n    parser.add_argument('--model', choices=['rf', 'lr'], default='rf',\n                       help='Model type: rf (Random Forest) or lr (Logistic Regression)')\n    \n    args = parser.parse_args()\n    \n    print(\"Loading and preprocessing data...\")\n    X, y = load_and_preprocess_data(args.data_path, args.target_column)\n    \n    print(\"Splitting data...\")\n    X_train, X_test, y_train, y_test = train_test_split(\n        X, y, test_size=0.2, random_state=42, stratify=y\n    )\n    \n    print(\"Scaling features...\")\n    scaler = StandardScaler()\n    X_train_scaled = scaler.fit_transform(X_train)\n    X_test_scaled = scaler.transform(X_test)\n    \n    print(f\"Training {args.model.upper()} model...\")\n    model = train_binary_classifier(X_train_scaled, y_train, ar",
+        "file_path": "local_codes/binary_classifier.py",
+        "language": "python"
+      },
+      {
+        "type": "class",
+        "name": "to",
+        "code": "class to binary (normal vs attack)\n        # Assume 'normal' is the positive class, everything else is attack\n        y_binary = y.apply(lambda x: 1 if 'normal' in str(x).lower() else 0)\n        y_encoded = y_binary\n        print(\"Converted to binary: 1=normal, 0=attack\")\n    \n    return X, y_encoded\n\ndef train_binary_classifier(X_train, y_train, model_type='rf'):\n    \"\"\"Train a binary classification model\"\"\"\n    if model_type == 'rf':\n        model = RandomForestClassifier(n_estimators=100, random_state=42)\n    elif model_type == 'lr':\n        model = LogisticRegression(random_state=42, max_iter=1000)\n    else:\n        raise ValueError(\"Unsupported model type\")\n    \n    model.fit(X_train, y_train)\n    return model\n\ndef evaluate_binary_model(model, X_test, y_test):\n    \"\"\"Evaluate the binary classification model\"\"\"\n    # Make predictions\n    y_pred = model.predict(X_test)\n    y_pred_proba = model.predict_proba(X_test)[:, 1]\n    \n    # Calculate metrics\n    accuracy = accuracy_score(y_test, y_pred)\n    auc_score = roc_auc_score(y_test, y_pred_proba)\n    \n    print(f\"Accuracy: {accuracy:.4f}\")\n    print(f\"AUC Score: {auc_score:.4f}\")\n    print(\"\\nClassification Report:\")\n    print(classification_report(y_test, y_pred, target_names=['Attack', 'Normal']))\n    \n    return accuracy, auc_score, y_pred, y_pred_proba\n\ndef main():\n    parser = argparse.ArgumentParser(description='Binary Classification Model')\n    parser.add_argument('data_path', help='Path to the CSV dataset')\n    pars",
+        "file_path": "local_codes/binary_classifier.py",
+        "language": "python"
+      },
+      {
+        "type": "function",
+        "name": "load_and_preprocess_data",
+        "code": "def load_and_preprocess_data(data_path, target_column=None):\n    \"\"\"Load and preprocess the dataset\"\"\"\n    # Load data\n    df = pd.read_csv(data_path)\n    \n    print(f\"Dataset shape: {df.shape}\")\n    print(f\"Columns: {list(df.columns)}\")\n    \n    # Auto-detect target column if not specified\n    if target_column is None:\n        # Assume last column is target\n        target_column = df.columns[-1]\n        print(f\"Auto-detected target column: {target_column}\")\n    \n    # Separate features and target\n    X = df.drop(target_column, axis=1)\n    y = df[target_column]\n    \n    print(f\"Features: {X.shape[1]}\")\n    print(f\"Classes: {y.nunique()}\")\n    print(f\"Class distribution:\\n{y.value_counts()}\")\n    \n    # Handle categorical features\n    categorical_columns = X.select_dtypes(include=['object']).columns\n    label_encoders = {}\n    \n    for col in categorical_columns:\n        le = LabelEncoder()\n        X[col] = le.fit_transform(X[col])\n        label_encoders[col] = le\n        print(f\"Encode",
+        "file_path": "local_codes/generic_classifier.py",
+        "language": "python"
+      },
+      {
+        "type": "function",
+        "name": "train_classifier",
+        "code": "def train_classifier(X_train, y_train, model_type='rf'):\n    \"\"\"Train a classification model\"\"\"\n    models = {\n        'rf': RandomForestClassifier(n_estimators=100, random_state=42),\n        'gb': GradientBoostingClassifier(n_estimators=100, random_state=42),\n        'lr': LogisticRegression(random_state=42, max_iter=1000),\n        'svm': SVC(random_state=42, probability=True)\n    }\n    \n    if model_type not in models:\n        raise ValueError(f\"Unsupported model type. Choose from: {list(models.keys())}\")\n    \n    model = models[model_type]\n    print(f\"Training {model_type.upper()} model...\")\n    model.fit(X_train, y_train)\n    return model\n",
+        "file_path": "local_codes/generic_classifier.py",
+        "language": "python"
+      },
+      {
+        "type": "function",
+        "name": "evaluate_model",
+        "code": "def evaluate_model(model, X_test, y_test, target_encoder):\n    \"\"\"Evaluate the trained model\"\"\"\n    # Make predictions\n    y_pred = model.predict(X_test)\n    \n    # Calculate accuracy\n    accuracy = accuracy_score(y_test, y_pred)\n    \n    # Get class names\n    class_names = target_encoder.classes_\n    \n    # Print results\n    print(f\"\\nAccuracy: {accuracy:.4f}\")\n    print(\"\\nClassification Report:\")\n    print(classification_report(y_test, y_pred, target_names=class_names))\n    \n    return accuracy, y_pred\n",
+        "file_path": "local_codes/generic_classifier.py",
+        "language": "python"
+      },
+      {
+        "type": "function",
+        "name": "main",
+        "code": "def main():\n    parser = argparse.ArgumentParser(description='Generic Classification Model')\n    parser.add_argument('data_path', help='Path to the CSV dataset')\n    parser.add_argument('--target-column', help='Name of the target column (default: last column)')\n    parser.add_argument('--model', choices=['rf', 'gb', 'lr', 'svm'], default='rf',\n                       help='Model type: rf (Random Forest), gb (Gradient Boosting), lr (Logistic Regression), svm (SVM)')\n    parser.add_argument('--test-size', type=float, default=0.2,\n                       help='Test set size (default: 0.2)')\n    parser.add_argument('--no-scaling', action='store_true',\n                       help='Skip feature scaling')\n    \n    args = parser.parse_args()\n    \n    print(\"Loading and preprocessing data...\")\n    X, y, target_encoder, feature_encoders = load_and_preprocess_data(args.data_path, args.target_column)\n    \n    print(\"\\nSplitting data...\")\n    X_train, X_test, y_train, y_test = train_test_split(\n     ",
+        "file_path": "local_codes/generic_classifier.py",
+        "language": "python"
+      },
+      {
+        "type": "class",
+        "name": "classification",
+        "code": "class classification\n\"\"\"\n\nimport pandas as pd\nimport numpy as np\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import LabelEncoder, StandardScaler\nfrom sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.svm import SVC\nfrom sklearn.metrics import classification_report, accuracy_score, confusion_matrix\nimport argparse\n\ndef load_and_preprocess_data(data_path, target_column=None):\n    \"\"\"Load and preprocess the dataset\"\"\"\n    # Load data\n    df = pd.read_csv(data_path)\n    \n    print(f\"Dataset shape: {df.shape}\")\n    print(f\"Columns: {list(df.columns)}\")\n    \n    # Auto-detect target column if not specified\n    if target_column is None:\n        # Assume last column is target\n        target_column = df.columns[-1]\n        print(f\"Auto-detected target column: {target_column}\")\n    \n    # Separate features and target\n    X = df.drop(target_column, axis=1)\n    y = df[target_column]\n    \n    print(f\"Features: {X.shape[1]}\")\n    print(f\"Classes: {y.nunique()}\")\n    print(f\"Class distribution:\\n{y.value_counts()}\")\n    \n    # Handle categorical features\n    categorical_columns = X.select_dtypes(include=['object']).columns\n    label_encoders = {}\n    \n    for col in categorical_columns:\n        le = LabelEncoder()\n        X[col] = le.fit_transform(X[col])\n        label_encoders[col] = le\n        print(f\"Encoded categorical column: {col}\")\n    \n    # Encode target lab",
+        "file_path": "local_codes/generic_classifier.py",
+        "language": "python"
+      },
+      {
+        "type": "function",
+        "name": "load_data",
+        "code": "def load_data(data_path, target_column=None):\n    \"\"\"Load and preprocess dataset\"\"\"\n    df = pd.read_csv(data_path)\n    \n    if target_column is None:\n        target_column = df.columns[-1]\n    \n    X = df.drop(target_column, axis=1)\n    y = df[target_column]\n    \n    # Handle categorical features\n    categorical_columns = X.select_dtypes(include=['object']).columns\n    for col in categorical_columns:\n        le = LabelEncoder()\n        X[col] = le.fit_transform(X[col])\n    \n    # Encode target\n    le_target = LabelEncoder()\n    y_encoded = le_target.fit_transform(y)\n    \n    return X, y_encoded\n",
+        "file_path": "local_codes/model_comparison.py",
+        "language": "python"
+      },
+      {
+        "type": "function",
+        "name": "compare_models",
+        "code": "def compare_models(X_train, X_test, y_train, y_test):\n    \"\"\"Compare multiple classification models\"\"\"\n    \n    models = {\n        'Random Forest': RandomForestClassifier(n_estimators=100, random_state=42),\n        'Gradient Boosting': GradientBoostingClassifier(n_estimators=100, random_state=42),\n        'Logistic Regression': LogisticRegression(random_state=42, max_iter=1000),\n        'SVM': SVC(random_state=42),\n        'Naive Bayes': GaussianNB()\n    }\n    \n    results = {}\n    \n    print(\"Comparing models...\")\n    print(\"-\" * 60)\n    \n    for name, model in models.items():\n        # Time training\n        start_time = time.time()\n        model.fit(X_train, y_train)\n        training_time = time.time() - start_time\n        \n        # Make predictions\n        start_time = time.time()\n        y_pred = model.predict(X_test)\n        prediction_time = time.time() - start_time\n        \n        # Calculate accuracy\n        accuracy = accuracy_score(y_test, y_pred)\n        \n        # Cross-v",
+        "file_path": "local_codes/model_comparison.py",
+        "language": "python"
+      },
+      {
+        "type": "function",
+        "name": "main",
+        "code": "def main():\n    parser = argparse.ArgumentParser(description='Model Comparison for Classification')\n    parser.add_argument('data_path', help='Path to the CSV dataset')\n    parser.add_argument('--target-column', help='Name of the target column')\n    parser.add_argument('--test-size', type=float, default=0.2, help='Test set size')\n    \n    args = parser.parse_args()\n    \n    print(\"Loading data...\")\n    X, y = load_data(args.data_path, args.target_column)\n    \n    print(f\"Dataset shape: {X.shape}\")\n    print(f\"Number of classes: {len(np.unique(y))}\")\n    \n    print(\"Splitting data...\")\n    X_train, X_test, y_train, y_test = train_test_split(\n        X, y, test_size=args.test_size, random_state=42, stratify=y\n    )\n    \n    print(\"Scaling features...\")\n    scaler = StandardScaler()\n    X_train_scaled = scaler.fit_transform(X_train)\n    X_test_scaled = scaler.transform(X_test)\n    \n    # Compare models\n    results = compare_models(X_train_scaled, X_test_scaled, y_train, y_test)\n",
+        "file_path": "local_codes/model_comparison.py",
+        "language": "python"
+      }
+    ],
+    "dependency_patterns": [
+      "sklearn.model_selection",
+      "sklearn.linear_model",
+      "sklearn.ensemble",
+      "sklearn.svm",
+      "sklearn.metrics",
+      "pandas",
+      "sklearn.naive_bayes",
+      "sklearn.preprocessing",
+      "numpy",
+      "matplotlib.pyplot"
+    ],
+    "architectural_patterns": [
+      "Binary Classification Pattern",
+      "Classification Model Pattern",
+      "Model Comparison Pattern",
+      "ML Training Pipeline Pattern",
+      "Generic Implementation Pattern"
+    ]
+  },
+  "sample_code_collection": [
+    {
+      "source": "local",
+      "file_path": "local_codes/binary_classifier.py",
+      "code_snippet": "def load_and_preprocess_data(data_path, target_column=None):\n    \"\"\"Load and preprocess the dataset for binary classification\"\"\"\n    df = pd.read_csv(data_path)\n    \n    print(f\"Dataset shape: {df.shape}\")\n    \n    # Auto-detect target column if not specified\n    if target_column is None:\n        target_column = df.columns[-1]\n        print(f\"Auto-detected target column: {target_column}\")\n    \n    # Separate features and target\n    X = df.drop(target_column, axis=1)\n    y = df[target_column]\n    \n    print(f\"Original classes: {y.unique()}\")\n    print(f\"Class distribution:\\n{y.value_counts()}\")\n    \n    # Handle categorical features\n    categorical_columns = X.select_dtypes(include=['object']).columns\n    for col in categorical_columns:\n        le = LabelEncoder()\n        X[col] = le.fit_transform(X[col])\n    \n    # Encode target labels for binary classification\n    if y.nunique() == 2:\n        # Already binary\n        le = LabelEncoder()\n        y_encoded = le.fit_transform(y)\n    else",
+      "language": "python",
+      "snippet_id": "local_local_codes_binary_classifier.py"
+    },
+    {
+      "source": "local",
+      "file_path": "local_codes/binary_classifier.py",
+      "code_snippet": "def train_binary_classifier(X_train, y_train, model_type='rf'):\n    \"\"\"Train a binary classification model\"\"\"\n    if model_type == 'rf':\n        model = RandomForestClassifier(n_estimators=100, random_state=42)\n    elif model_type == 'lr':\n        model = LogisticRegression(random_state=42, max_iter=1000)\n    else:\n        raise ValueError(\"Unsupported model type\")\n    \n    model.fit(X_train, y_train)\n    return model\n",
+      "language": "python",
+      "snippet_id": "local_local_codes_binary_classifier.py"
+    },
+    {
+      "source": "local",
+      "file_path": "local_codes/binary_classifier.py",
+      "code_snippet": "def evaluate_binary_model(model, X_test, y_test):\n    \"\"\"Evaluate the binary classification model\"\"\"\n    # Make predictions\n    y_pred = model.predict(X_test)\n    y_pred_proba = model.predict_proba(X_test)[:, 1]\n    \n    # Calculate metrics\n    accuracy = accuracy_score(y_test, y_pred)\n    auc_score = roc_auc_score(y_test, y_pred_proba)\n    \n    print(f\"Accuracy: {accuracy:.4f}\")\n    print(f\"AUC Score: {auc_score:.4f}\")\n    print(\"\\nClassification Report:\")\n    print(classification_report(y_test, y_pred, target_names=['Attack', 'Normal']))\n    \n    return accuracy, auc_score, y_pred, y_pred_proba\n",
+      "language": "python",
+      "snippet_id": "local_local_codes_binary_classifier.py"
+    },
+    {
+      "source": "local",
+      "file_path": "local_codes/binary_classifier.py",
+      "code_snippet": "def main():\n    parser = argparse.ArgumentParser(description='Binary Classification Model')\n    parser.add_argument('data_path', help='Path to the CSV dataset')\n    parser.add_argument('--target-column', help='Name of the target column')\n    parser.add_argument('--model', choices=['rf', 'lr'], default='rf',\n                       help='Model type: rf (Random Forest) or lr (Logistic Regression)')\n    \n    args = parser.parse_args()\n    \n    print(\"Loading and preprocessing data...\")\n    X, y = load_and_preprocess_data(args.data_path, args.target_column)\n    \n    print(\"Splitting data...\")\n    X_train, X_test, y_train, y_test = train_test_split(\n        X, y, test_size=0.2, random_state=42, stratify=y\n    )\n    \n    print(\"Scaling features...\")\n    scaler = StandardScaler()\n    X_train_scaled = scaler.fit_transform(X_train)\n    X_test_scaled = scaler.transform(X_test)\n    \n    print(f\"Training {args.model.upper()} model...\")\n    model = train_binary_classifier(X_train_scaled, y_train, ar",
+      "language": "python",
+      "snippet_id": "local_local_codes_binary_classifier.py"
+    },
+    {
+      "source": "local",
+      "file_path": "local_codes/binary_classifier.py",
+      "code_snippet": "class to binary (normal vs attack)\n        # Assume 'normal' is the positive class, everything else is attack\n        y_binary = y.apply(lambda x: 1 if 'normal' in str(x).lower() else 0)\n        y_encoded = y_binary\n        print(\"Converted to binary: 1=normal, 0=attack\")\n    \n    return X, y_encoded\n\ndef train_binary_classifier(X_train, y_train, model_type='rf'):\n    \"\"\"Train a binary classification model\"\"\"\n    if model_type == 'rf':\n        model = RandomForestClassifier(n_estimators=100, random_state=42)\n    elif model_type == 'lr':\n        model = LogisticRegression(random_state=42, max_iter=1000)\n    else:\n        raise ValueError(\"Unsupported model type\")\n    \n    model.fit(X_train, y_train)\n    return model\n\ndef evaluate_binary_model(model, X_test, y_test):\n    \"\"\"Evaluate the binary classification model\"\"\"\n    # Make predictions\n    y_pred = model.predict(X_test)\n    y_pred_proba = model.predict_proba(X_test)[:, 1]\n    \n    # Calculate metrics\n    accuracy = accuracy_score(y_test, y_pred)\n    auc_score = roc_auc_score(y_test, y_pred_proba)\n    \n    print(f\"Accuracy: {accuracy:.4f}\")\n    print(f\"AUC Score: {auc_score:.4f}\")\n    print(\"\\nClassification Report:\")\n    print(classification_report(y_test, y_pred, target_names=['Attack', 'Normal']))\n    \n    return accuracy, auc_score, y_pred, y_pred_proba\n\ndef main():\n    parser = argparse.ArgumentParser(description='Binary Classification Model')\n    parser.add_argument('data_path', help='Path to the CSV dataset')\n    pars",
+      "language": "python",
+      "snippet_id": "local_local_codes_binary_classifier.py"
+    },
+    {
+      "source": "local",
+      "file_path": "local_codes/generic_classifier.py",
+      "code_snippet": "def load_and_preprocess_data(data_path, target_column=None):\n    \"\"\"Load and preprocess the dataset\"\"\"\n    # Load data\n    df = pd.read_csv(data_path)\n    \n    print(f\"Dataset shape: {df.shape}\")\n    print(f\"Columns: {list(df.columns)}\")\n    \n    # Auto-detect target column if not specified\n    if target_column is None:\n        # Assume last column is target\n        target_column = df.columns[-1]\n        print(f\"Auto-detected target column: {target_column}\")\n    \n    # Separate features and target\n    X = df.drop(target_column, axis=1)\n    y = df[target_column]\n    \n    print(f\"Features: {X.shape[1]}\")\n    print(f\"Classes: {y.nunique()}\")\n    print(f\"Class distribution:\\n{y.value_counts()}\")\n    \n    # Handle categorical features\n    categorical_columns = X.select_dtypes(include=['object']).columns\n    label_encoders = {}\n    \n    for col in categorical_columns:\n        le = LabelEncoder()\n        X[col] = le.fit_transform(X[col])\n        label_encoders[col] = le\n        print(f\"Encode",
+      "language": "python",
+      "snippet_id": "local_local_codes_generic_classifier.py"
+    },
+    {
+      "source": "local",
+      "file_path": "local_codes/generic_classifier.py",
+      "code_snippet": "def train_classifier(X_train, y_train, model_type='rf'):\n    \"\"\"Train a classification model\"\"\"\n    models = {\n        'rf': RandomForestClassifier(n_estimators=100, random_state=42),\n        'gb': GradientBoostingClassifier(n_estimators=100, random_state=42),\n        'lr': LogisticRegression(random_state=42, max_iter=1000),\n        'svm': SVC(random_state=42, probability=True)\n    }\n    \n    if model_type not in models:\n        raise ValueError(f\"Unsupported model type. Choose from: {list(models.keys())}\")\n    \n    model = models[model_type]\n    print(f\"Training {model_type.upper()} model...\")\n    model.fit(X_train, y_train)\n    return model\n",
+      "language": "python",
+      "snippet_id": "local_local_codes_generic_classifier.py"
+    },
+    {
+      "source": "local",
+      "file_path": "local_codes/generic_classifier.py",
+      "code_snippet": "def evaluate_model(model, X_test, y_test, target_encoder):\n    \"\"\"Evaluate the trained model\"\"\"\n    # Make predictions\n    y_pred = model.predict(X_test)\n    \n    # Calculate accuracy\n    accuracy = accuracy_score(y_test, y_pred)\n    \n    # Get class names\n    class_names = target_encoder.classes_\n    \n    # Print results\n    print(f\"\\nAccuracy: {accuracy:.4f}\")\n    print(\"\\nClassification Report:\")\n    print(classification_report(y_test, y_pred, target_names=class_names))\n    \n    return accuracy, y_pred\n",
+      "language": "python",
+      "snippet_id": "local_local_codes_generic_classifier.py"
+    },
+    {
+      "source": "local",
+      "file_path": "local_codes/generic_classifier.py",
+      "code_snippet": "def main():\n    parser = argparse.ArgumentParser(description='Generic Classification Model')\n    parser.add_argument('data_path', help='Path to the CSV dataset')\n    parser.add_argument('--target-column', help='Name of the target column (default: last column)')\n    parser.add_argument('--model', choices=['rf', 'gb', 'lr', 'svm'], default='rf',\n                       help='Model type: rf (Random Forest), gb (Gradient Boosting), lr (Logistic Regression), svm (SVM)')\n    parser.add_argument('--test-size', type=float, default=0.2,\n                       help='Test set size (default: 0.2)')\n    parser.add_argument('--no-scaling', action='store_true',\n                       help='Skip feature scaling')\n    \n    args = parser.parse_args()\n    \n    print(\"Loading and preprocessing data...\")\n    X, y, target_encoder, feature_encoders = load_and_preprocess_data(args.data_path, args.target_column)\n    \n    print(\"\\nSplitting data...\")\n    X_train, X_test, y_train, y_test = train_test_split(\n     ",
+      "language": "python",
+      "snippet_id": "local_local_codes_generic_classifier.py"
+    },
+    {
+      "source": "local",
+      "file_path": "local_codes/generic_classifier.py",
+      "code_snippet": "class classification\n\"\"\"\n\nimport pandas as pd\nimport numpy as np\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import LabelEncoder, StandardScaler\nfrom sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.svm import SVC\nfrom sklearn.metrics import classification_report, accuracy_score, confusion_matrix\nimport argparse\n\ndef load_and_preprocess_data(data_path, target_column=None):\n    \"\"\"Load and preprocess the dataset\"\"\"\n    # Load data\n    df = pd.read_csv(data_path)\n    \n    print(f\"Dataset shape: {df.shape}\")\n    print(f\"Columns: {list(df.columns)}\")\n    \n    # Auto-detect target column if not specified\n    if target_column is None:\n        # Assume last column is target\n        target_column = df.columns[-1]\n        print(f\"Auto-detected target column: {target_column}\")\n    \n    # Separate features and target\n    X = df.drop(target_column, axis=1)\n    y = df[target_column]\n    \n    print(f\"Features: {X.shape[1]}\")\n    print(f\"Classes: {y.nunique()}\")\n    print(f\"Class distribution:\\n{y.value_counts()}\")\n    \n    # Handle categorical features\n    categorical_columns = X.select_dtypes(include=['object']).columns\n    label_encoders = {}\n    \n    for col in categorical_columns:\n        le = LabelEncoder()\n        X[col] = le.fit_transform(X[col])\n        label_encoders[col] = le\n        print(f\"Encoded categorical column: {col}\")\n    \n    # Encode target lab",
+      "language": "python",
+      "snippet_id": "local_local_codes_generic_classifier.py"
+    },
+    {
+      "source": "local",
+      "file_path": "local_codes/model_comparison.py",
+      "code_snippet": "def load_data(data_path, target_column=None):\n    \"\"\"Load and preprocess dataset\"\"\"\n    df = pd.read_csv(data_path)\n    \n    if target_column is None:\n        target_column = df.columns[-1]\n    \n    X = df.drop(target_column, axis=1)\n    y = df[target_column]\n    \n    # Handle categorical features\n    categorical_columns = X.select_dtypes(include=['object']).columns\n    for col in categorical_columns:\n        le = LabelEncoder()\n        X[col] = le.fit_transform(X[col])\n    \n    # Encode target\n    le_target = LabelEncoder()\n    y_encoded = le_target.fit_transform(y)\n    \n    return X, y_encoded\n",
+      "language": "python",
+      "snippet_id": "local_local_codes_model_comparison.py"
+    },
+    {
+      "source": "local",
+      "file_path": "local_codes/model_comparison.py",
+      "code_snippet": "def compare_models(X_train, X_test, y_train, y_test):\n    \"\"\"Compare multiple classification models\"\"\"\n    \n    models = {\n        'Random Forest': RandomForestClassifier(n_estimators=100, random_state=42),\n        'Gradient Boosting': GradientBoostingClassifier(n_estimators=100, random_state=42),\n        'Logistic Regression': LogisticRegression(random_state=42, max_iter=1000),\n        'SVM': SVC(random_state=42),\n        'Naive Bayes': GaussianNB()\n    }\n    \n    results = {}\n    \n    print(\"Comparing models...\")\n    print(\"-\" * 60)\n    \n    for name, model in models.items():\n        # Time training\n        start_time = time.time()\n        model.fit(X_train, y_train)\n        training_time = time.time() - start_time\n        \n        # Make predictions\n        start_time = time.time()\n        y_pred = model.predict(X_test)\n        prediction_time = time.time() - start_time\n        \n        # Calculate accuracy\n        accuracy = accuracy_score(y_test, y_pred)\n        \n        # Cross-v",
+      "language": "python",
+      "snippet_id": "local_local_codes_model_comparison.py"
+    },
+    {
+      "source": "local",
+      "file_path": "local_codes/model_comparison.py",
+      "code_snippet": "def main():\n    parser = argparse.ArgumentParser(description='Model Comparison for Classification')\n    parser.add_argument('data_path', help='Path to the CSV dataset')\n    parser.add_argument('--target-column', help='Name of the target column')\n    parser.add_argument('--test-size', type=float, default=0.2, help='Test set size')\n    \n    args = parser.parse_args()\n    \n    print(\"Loading data...\")\n    X, y = load_data(args.data_path, args.target_column)\n    \n    print(f\"Dataset shape: {X.shape}\")\n    print(f\"Number of classes: {len(np.unique(y))}\")\n    \n    print(\"Splitting data...\")\n    X_train, X_test, y_train, y_test = train_test_split(\n        X, y, test_size=args.test_size, random_state=42, stratify=y\n    )\n    \n    print(\"Scaling features...\")\n    scaler = StandardScaler()\n    X_train_scaled = scaler.fit_transform(X_train)\n    X_test_scaled = scaler.transform(X_test)\n    \n    # Compare models\n    results = compare_models(X_train_scaled, X_test_scaled, y_train, y_test)\n",
+      "language": "python",
+      "snippet_id": "local_local_codes_model_comparison.py"
+    }
+  ],
+  "technical_approaches": [
+    "Supervised Learning: Utilize algorithms such as Decision Trees, Random Forests, Support Vector Machines (SVM), and Neural Networks for classification tasks.",
+    "Ensemble Methods: Implement techniques like Bagging and Boosting (e.g., AdaBoost, Gradient Boosting) to improve model accuracy by combining multiple models.",
+    "Deep Learning: Explore Convolutional Neural Networks (CNNs) or Recurrent Neural Networks (RNNs) for complex pattern recognition in network traffic data.",
+    "Anomaly Detection: Use unsupervised learning techniques to identify unusual patterns that may indicate intrusions."
+  ],
+  "implementation_patterns": [
+    "Data Pipeline: Create a structured data pipeline using tools like Apache Airflow or Luigi for preprocessing, feature extraction, and model training.",
+    "Modular Code Structure: Organize code into modules for data preprocessing, model training, evaluation, and deployment to enhance maintainability.",
+    "Cross-Validation: Implement k-fold cross-validation to assess model performance and avoid overfitting.",
+    "Hyperparameter Tuning: Use Grid Search or Random Search for systematic exploration of hyperparameter space."
+  ],
+  "best_practices": [
+    "Data Preprocessing: Ensure thorough cleaning and normalization of the KDD Cup 99 dataset to improve model performance.",
+    "Feature Engineering: Identify and create relevant features that can enhance model accuracy, such as aggregating traffic data over time.",
+    "Model Evaluation: Use multiple metrics (accuracy, precision, recall, F1-score) to evaluate model performance comprehensively.",
+    "Documentation: Maintain clear documentation of the codebase and methodologies used for reproducibility and future reference."
+  ],
+  "potential_challenges": [
+    "Imbalanced Classes: Address class imbalance using techniques like SMOTE (Synthetic Minority Over-sampling Technique) or class weighting.",
+    "Overfitting: Monitor model performance on validation data to prevent overfitting, and consider using regularization techniques.",
+    "Computational Constraints: Optimize code and model complexity to fit within limited computational resources, possibly using model pruning.",
+    "Real-time Processing: Ensure the model is optimized for low-latency inference to meet real-time detection requirements."
+  ],
+  "recommended_technologies": [
+    "Pandas and NumPy: For data manipulation and preprocessing.",
+    "Scikit-learn: For implementing machine learning algorithms and evaluation metrics.",
+    "TensorFlow or PyTorch: For building and training deep learning models.",
+    "Matplotlib and Seaborn: For data visualization and exploratory data analysis."
+  ],
+  "search_keywords_used": [
+    "The domain is cybersecurity, specifically focusing on network intrusion detection systems (NIDS). The KDD Cup 99 dataset is a widely used benchmark for evaluating intrusion detection algorithms.",
+    "Data preprocessing tools (e.g., pandas, NumPy)",
+    "Build a classification model for KDD Cup 99 network intrusion detection dataset",
+    "KDD Cup 99 network intrusion detection classification",
+    "classification",
+    "Machine learning libraries (e.g., scikit-learn, TensorFlow, or PyTorch)",
+    "Evaluation metrics for classification (e.g., confusion matrix, ROC curve)",
+    "Optimizing model parameters effectively",
+    "Handling imbalanced classes in the dataset",
+    "Choosing the right machine learning algorithms",
+    "Ensuring the model generalizes well to unseen data"
+  ],
+  "sources_searched": [
+    "local_code"
+  ]
+}

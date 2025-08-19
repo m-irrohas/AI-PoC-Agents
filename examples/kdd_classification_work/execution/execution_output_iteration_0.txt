@@ -1,0 +1,4 @@
+Random Forest Model Metrics:
+Accuracy: 0.99858, Precision: 0.99823, Recall: 0.99858, F1 Score: 0.99833
+Gradient Boosting Model Metrics:
+Accuracy: 0.99271, Precision: 0.99400, Recall: 0.99271, F1 Score: 0.99307

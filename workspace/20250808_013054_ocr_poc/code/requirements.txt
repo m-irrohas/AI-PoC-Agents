@@ -1,0 +1,4 @@
+Pillow==8.4.0
+EasyOCR==1.4.1
+NumPy==1.21.2
+OpenCV-Python==4.5.3.20210927

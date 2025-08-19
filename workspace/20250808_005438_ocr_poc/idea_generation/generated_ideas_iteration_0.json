@@ -1,0 +1,252 @@
+[
+  {
+    "id": "qiita_python_idea_1",
+    "title": "OCR画像文字認識システム using Python",
+    "description": "OCR画像文字認識システムをPythonで実装するPython PoC",
+    "approach": "",
+    "technologies": [],
+    "implementation_complexity": 2,
+    "expected_impact": 5,
+    "feasibility_score": 0.85,
+    "innovation_score": 0.0,
+    "total_score": 0.85,
+    "pros": [],
+    "cons": [],
+    "required_skills": [],
+    "estimated_effort_hours": 12,
+    "risk_factors": [],
+    "technical_approach": "Python + Python",
+    "inspiration_source": "qiita",
+    "qiita_reference_articles": [
+      {
+        "title": "PDFデータを活用したLangChainでのRAG構築",
+        "url": "https://qiita.com/camcam/items/ae9ac4860968389804bd",
+        "relevance_score": 0.7970733046531677,
+        "python_code_score": 4,
+        "python_code_blocks": 5
+      },
+      {
+        "title": "OCRとOpenAIを比較してみた",
+        "url": "https://qiita.com/ogi_kimura/items/f6b8e3426349767e8f7b",
+        "relevance_score": 0.8282209038734436,
+        "python_code_score": 7,
+        "python_code_blocks": 3
+      },
+      {
+        "title": "エンジニアにも知って欲しいChatGPT基本テクニック",
+        "url": "https://qiita.com/b-mente/items/93ea3d9a4fc33a76b949",
+        "relevance_score": 0.7712546586990356,
+        "python_code_score": 6,
+        "python_code_blocks": 0
+      },
+      {
+        "title": "「シーケンス認識によるAI-OCRモデル」を活用しMNISTから生成した数字列を読み取る",
+        "url": "https://qiita.com/cosumi77/items/83256a5a59e7784bb894",
+        "relevance_score": 0.8348196744918823,
+        "python_code_score": 7,
+        "python_code_blocks": 5
+      },
+      {
+        "title": "確信度を出してくれるOCRを作ってみる！",
+        "url": "https://qiita.com/sakasegawa/items/c7173648aea662451dbd",
+        "relevance_score": 0.8220961689949036,
+        "python_code_score": 6,
+        "python_code_blocks": 3
+      }
+    ],
+    "qiita_code_examples": [
+      {
+        "code": "# 仮想環境の作成\n$ python -m venv langchain_env\n\n# 仮想環境の有効化（Windows）\n$ langchain_env/Scripts/activate",
+        "article_title": "PDFデータを活用したLangChainでのRAG構築",
+        "article_url": "https://qiita.com/camcam/items/ae9ac4860968389804bd",
+        "likes": 15,
+        "type": "general"
+      }
+    ]
+  },
+  {
+    "id": "qiita_python_idea_2",
+    "title": "OCR画像文字認識システム using pip",
+    "description": "OCR画像文字認識システムをpipで実装するPython PoC",
+    "approach": "",
+    "technologies": [],
+    "implementation_complexity": 3,
+    "expected_impact": 4,
+    "feasibility_score": 0.7999999999999999,
+    "innovation_score": 0.0,
+    "total_score": 0.7999999999999999,
+    "pros": [],
+    "cons": [],
+    "required_skills": [],
+    "estimated_effort_hours": 18,
+    "risk_factors": [],
+    "technical_approach": "Python + pip",
+    "inspiration_source": "qiita",
+    "qiita_reference_articles": [
+      {
+        "title": "PDFデータを活用したLangChainでのRAG構築",
+        "url": "https://qiita.com/camcam/items/ae9ac4860968389804bd",
+        "relevance_score": 0.7970733046531677,
+        "python_code_score": 4,
+        "python_code_blocks": 5
+      },
+      {
+        "title": "OCRとOpenAIを比較してみた",
+        "url": "https://qiita.com/ogi_kimura/items/f6b8e3426349767e8f7b",
+        "relevance_score": 0.8282209038734436,
+        "python_code_score": 7,
+        "python_code_blocks": 3
+      },
+      {
+        "title": "エンジニアにも知って欲しいChatGPT基本テクニック",
+        "url": "https://qiita.com/b-mente/items/93ea3d9a4fc33a76b949",
+        "relevance_score": 0.7712546586990356,
+        "python_code_score": 6,
+        "python_code_blocks": 0
+      }
+    ],
+    "qiita_code_examples": [
+      {
+        "code": "pip install --no-index --find-links=pylib [導入するライブラリ名]",
+        "article_title": "AI-OCRを自作しました(2025.2)",
+        "article_url": "https://qiita.com/jupiter-san/items/d7b3e2a70c8624c43c45",
+        "likes": 13,
+        "type": "general"
+      }
+    ]
+  },
+  {
+    "id": "qiita_python_idea_3",
+    "title": "OCR画像文字認識システム using PIL",
+    "description": "OCR画像文字認識システムをPILで実装するPython PoC",
+    "approach": "",
+    "technologies": [],
+    "implementation_complexity": 4,
+    "expected_impact": 3,
+    "feasibility_score": 0.75,
+    "innovation_score": 0.0,
+    "total_score": 0.75,
+    "pros": [],
+    "cons": [],
+    "required_skills": [],
+    "estimated_effort_hours": 24,
+    "risk_factors": [],
+    "technical_approach": "Python + PIL",
+    "inspiration_source": "qiita",
+    "qiita_reference_articles": [
+      {
+        "title": "OCRとOpenAIを比較してみた",
+        "url": "https://qiita.com/ogi_kimura/items/f6b8e3426349767e8f7b",
+        "relevance_score": 0.8282209038734436,
+        "python_code_score": 7,
+        "python_code_blocks": 3
+      },
+      {
+        "title": "エンジニアにも知って欲しいChatGPT基本テクニック",
+        "url": "https://qiita.com/b-mente/items/93ea3d9a4fc33a76b949",
+        "relevance_score": 0.7712546586990356,
+        "python_code_score": 6,
+        "python_code_blocks": 0
+      },
+      {
+        "title": "「シーケンス認識によるAI-OCRモデル」を活用しMNISTから生成した数字列を読み取る",
+        "url": "https://qiita.com/cosumi77/items/83256a5a59e7784bb894",
+        "relevance_score": 0.8348196744918823,
+        "python_code_score": 7,
+        "python_code_blocks": 5
+      },
+      {
+        "title": "確信度を出してくれるOCRを作ってみる！",
+        "url": "https://qiita.com/sakasegawa/items/c7173648aea662451dbd",
+        "relevance_score": 0.8220961689949036,
+        "python_code_score": 6,
+        "python_code_blocks": 3
+      }
+    ],
+    "qiita_code_examples": []
+  },
+  {
+    "id": "qiita_general_idea_1",
+    "title": "OCR画像文字認識システム with Python + AWS",
+    "description": "OCR画像文字認識システムをPythonとAWSで実装するPoC",
+    "approach": "",
+    "technologies": [],
+    "implementation_complexity": 3,
+    "expected_impact": 4,
+    "feasibility_score": 0.75,
+    "innovation_score": 0.0,
+    "total_score": 0.75,
+    "pros": [],
+    "cons": [],
+    "required_skills": [],
+    "estimated_effort_hours": 20,
+    "risk_factors": [],
+    "technical_approach": "Python + AWS",
+    "inspiration_source": "qiita",
+    "qiita_reference_articles": [
+      {
+        "title": "PDFデータを活用したLangChainでのRAG構築",
+        "url": "https://qiita.com/camcam/items/ae9ac4860968389804bd",
+        "relevance_score": 0.7970733046531677
+      },
+      {
+        "title": "OCRとOpenAIを比較してみた",
+        "url": "https://qiita.com/ogi_kimura/items/f6b8e3426349767e8f7b",
+        "relevance_score": 0.8282209038734436
+      },
+      {
+        "title": "エンジニアにも知って欲しいChatGPT基本テクニック",
+        "url": "https://qiita.com/b-mente/items/93ea3d9a4fc33a76b949",
+        "relevance_score": 0.7712546586990356
+      }
+    ],
+    "qiita_code_examples": [
+      {
+        "code": "結果、以下のような画像が生成されます。\n\n790467491_880.png\n![790467491_880.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/388176/118c242e-ee59-660d-d48f-84b1b6fb0737.png)\n1_462.png\n![1_462.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/388176/3d6f2aee-8c47-1c38-8a81-6ca2f80d3ab8.png)",
+        "article_title": "「シーケンス認識によるAI-OCRモデル」を活用しMNISTから生成した数字列を読み取る",
+        "article_url": "https://qiita.com/cosumi77/items/83256a5a59e7784bb894",
+        "likes": 3,
+        "type": "general"
+      },
+      {
+        "code": "結果がこちら。解像度を与えると若干改善するものの、やっぱり難しいです。てか、ここまである程度うまくいくのやばいな。要素数が少なければあとはうまくやれそうですが、大量にあるときには難しいです。\n\n![kanashii.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2958603/2c5ea18a-cadf-9e3f-1d9c-4ea5979c39fc.png)\n\n### 食べログさんのやつはどうか\n\nhttps://tech-blog.tabelog.com/entry/ai-menu-ocr\n\nこっちはめちゃく",
+        "article_title": "確信度を出してくれるOCRを作ってみる！",
+        "article_url": "https://qiita.com/sakasegawa/items/c7173648aea662451dbd",
+        "likes": 50,
+        "type": "general"
+      }
+    ]
+  },
+  {
+    "id": "qiita_general_idea_2",
+    "title": "OCR画像文字認識システム with Python + Azure",
+    "description": "OCR画像文字認識システムをPythonとAzureで実装するPoC",
+    "approach": "",
+    "technologies": [],
+    "implementation_complexity": 4,
+    "expected_impact": 3,
+    "feasibility_score": 0.7,
+    "innovation_score": 0.0,
+    "total_score": 0.7,
+    "pros": [],
+    "cons": [],
+    "required_skills": [],
+    "estimated_effort_hours": 28,
+    "risk_factors": [],
+    "technical_approach": "Python + Azure",
+    "inspiration_source": "qiita",
+    "qiita_reference_articles": [
+      {
+        "title": "PDFデータを活用したLangChainでのRAG構築",
+        "url": "https://qiita.com/camcam/items/ae9ac4860968389804bd",
+        "relevance_score": 0.7970733046531677
+      },
+      {
+        "title": "エンジニアにも知って欲しいChatGPT基本テクニック",
+        "url": "https://qiita.com/b-mente/items/93ea3d9a4fc33a76b949",
+        "relevance_score": 0.7712546586990356
+      }
+    ],
+    "qiita_code_examples": []
+  }
+]
